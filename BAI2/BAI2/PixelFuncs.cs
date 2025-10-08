@@ -67,15 +67,17 @@ namespace BAI
             // *** IMPLEMENTATION HERE *** //
 
             // De 16e bit bepaald of er wel of geen kleur teruggegeven wordt.            
-            // Schuif de 16e bit helemaal naar rechts. Deze bit bepaald nu of het getal even of oneven is.
-            byte bit = (byte)(pixelvalue >> 16);
+            // Schuif de 16e bit helemaal naar rechts. Pas dan een mask toe
+            // om alleen dat bitje over te houden.
+            uint mask = 0b00000000_00000001;
+            byte bit = (byte)((pixelvalue >> 16) & mask);
 
-            // Als die bit even is, dus 0, geef je zwart terug.
-            if (bit % 2 == 0)
+            // Als die bit een 0 is, geef je zwart terug.
+            if (bit == 0)
             {
                 return 0b11111111_00000000_00000000_00000000;
             }
-            // Als die bit oneven is, dus 1, geef je rood terug.
+            // Als die bit een 1 is, geef je rood terug.
             else
             {
                 return 0b11111111_11111111_00000000_00000000;
